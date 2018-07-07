@@ -30,71 +30,70 @@ namespace MUnique.OpenMU.Persistence.Initialization.Items
             var characterClasses = gameConfiguration.CharacterClasses;
             if (wizardClass > 0)
             {
-                yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.GrandMaster);
-
-                if (wizardClass < 3)
+                yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.DarkWizard);
+                if (wizardClass > 1)
                 {
                     yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.SoulMaster);
-                    if (wizardClass < 2)
+                    if (wizardClass > 2)
                     {
-                        yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.DarkWizard);
+                        yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.GrandMaster);
                     }
                 }
             }
 
             if (knightClass > 0)
             {
-                yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.BattleMaster);
-                if (knightClass < 3)
+                yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.DarkKnight);
+                if (knightClass > 1)
                 {
                     yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.BladeKnight);
-                    if (knightClass < 2)
+                    if (knightClass > 2)
                     {
-                        yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.DarkKnight);
+                        yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.BattleMaster);
                     }
                 }
             }
 
             if (elfClass > 0)
             {
-                yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.HighElf);
-                if (elfClass < 3)
+                yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.FairyElf);
+                if (elfClass > 1)
                 {
                     yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.MuseElf);
-                    if (elfClass < 2)
+                    if (elfClass > 2)
                     {
-                        yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.FairyElf);
+                        yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.HighElf);
                     }
                 }
             }
 
             if (magicGladiatorClass > 0)
             {
-                yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.DuelMaster);
-                if (magicGladiatorClass < 3)
+                yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.MagicGladiator);
+                if (magicGladiatorClass > 1)
                 {
-                    yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.MagicGladiator);
+                    yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.DuelMaster);
                 }
             }
 
             if (darkLordClass > 0)
             {
-                yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.LordEmperor);
-                if (darkLordClass < 3)
+                yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.DarkLord);
+                if (darkLordClass > 1)
                 {
-                    yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.DarkLord);
+                    yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.LordEmperor);
                 }
             }
 
             ////if (summonerClass > 0)
             ////{
-            ////    yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.DimensionMaster);
-            ////    if (summonerClass < 3)
+            ////    yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.Summoner);
+            ////    if (summonerClass > 1)
             ////    {
             ////        yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.BloodySummoner);
-            ////        if (summonerClass < 2)
+            ////        if (summonerClass > 2)
             ////        {
-            ////            yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.Summoner);
+            ////            yield return characterClasses.First(c => c.Number == (int)CharacterClassNumber.DimensionMaster);
             ////        }
             ////    }
             ////}
@@ -102,10 +101,10 @@ namespace MUnique.OpenMU.Persistence.Initialization.Items
             //// TODO
             ////if (ragefighterClass > 0)
             ////{
-            ////    yield return characterClasses.FirstOrDefault(c => c.Number == (int)CharacterClassNumber.FistMaster);
-            ////    if (ragefighterClass < 3)
+            ////    yield return characterClasses.FirstOrDefault(c => c.Number == (int)CharacterClassNumber.RageFighter);
+            ////    if (ragefighterClass > 1)
             ////    {
-            ////        yield return characterClasses.FirstOrDefault(c => c.Number == (int)CharacterClassNumber.RageFighter);
+            ////        yield return characterClasses.FirstOrDefault(c => c.Number == (int)CharacterClassNumber.FistMaster);
             ////    }
             ////}
         }
