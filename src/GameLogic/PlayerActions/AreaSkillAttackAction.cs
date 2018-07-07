@@ -5,7 +5,7 @@
 namespace MUnique.OpenMU.GameLogic.PlayerActions
 {
     using System.Linq;
-
+    using log4net;
     using MUnique.OpenMU.DataModel.Configuration;
     using MUnique.OpenMU.DataModel.Entities;
 
@@ -14,6 +14,7 @@ namespace MUnique.OpenMU.GameLogic.PlayerActions
     /// </summary>
     public class AreaSkillAttackAction
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(AreaSkillAttackAction));
         private readonly IGameContext gameContext;
 
         /// <summary>
@@ -40,16 +41,19 @@ namespace MUnique.OpenMU.GameLogic.PlayerActions
             var skill = skillEntry.Skill;
             if (skill.SkillType == SkillType.PassiveBoost)
             {
+                Logger.WarnFormat("AreaSkill is a passive boost");
                 return;
             }
 
             if (!player.TryConsumeForSkill(skill))
             {
+                Logger.WarnFormat("AreaSkill not enough resources");
                 return;
             }
 
             if (skill.SkillType == SkillType.AreaSkillAutomaticHits)
             {
+                Logger.WarnFormat("AreaSkill perform automatic hits");
                 this.PerformAutomaticHits(player, extraTargetId, targetAreaCenterX, targetAreaCenterY, skillEntry, skill);
             }
 
@@ -68,6 +72,7 @@ namespace MUnique.OpenMU.GameLogic.PlayerActions
 
             foreach (var target in attackablesInRange)
             {
+                Logger.WarnFormat("AreaSkill attack target [{0}] by skill [{1}]", target.Id, skillEntry.Skill.Name);
                 target.AttackBy(player, skillEntry);
             }
 

@@ -29,7 +29,7 @@ namespace MUnique.OpenMU.GameServer.MessageHandler
         public void HandlePacket(Player player, byte[] packet)
         {
             ////byte 3-12 char name
-            string characterName = Encoding.UTF8.GetString(packet, 3, packet.Skip(3).TakeWhile(b => b != 0).Count());
+            string characterName = Encoding.UTF8.GetString(packet, 3, 10);
             ////byte 13-n message
             string message = Encoding.UTF8.GetString(packet, 13, packet.Skip(13).TakeWhile(b => b != 0).Count());
 

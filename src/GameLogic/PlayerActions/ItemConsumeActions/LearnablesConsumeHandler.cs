@@ -4,6 +4,7 @@
 
 namespace MUnique.OpenMU.GameLogic.PlayerActions.ItemConsumeActions
 {
+    using log4net;
     using MUnique.OpenMU.DataModel.Entities;
 
     /// <summary>
@@ -11,6 +12,8 @@ namespace MUnique.OpenMU.GameLogic.PlayerActions.ItemConsumeActions
     /// </summary>
     public class LearnablesConsumeHandler : IItemConsumeHandler
     {
+        private static ILog log = LogManager.GetLogger(typeof(LearnablesConsumeHandler));
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LearnablesConsumeHandler"/> class.
         /// </summary>
@@ -37,17 +40,21 @@ namespace MUnique.OpenMU.GameLogic.PlayerActions.ItemConsumeActions
             // Check Requirements
             if (!player.CompliesRequirements(learnable))
             {
+                log.WarnFormat("Failed to use learnable by [{0}] because !CompliesRequirements", player.Name);
+
                 // TODO:Send unsuccessful packet
                 return false;
             }
 
             if (player.SkillList.ContainsSkill(learnable.Skill.SkillID.ToUnsigned()))
             {
+                log.WarnFormat("Failed to use learnable by [{0}] because already has this skill", player.Name);
                 return false;
             }
 
             if (learnable != null && learnable.Skill != null)
             {
+                log.WarnFormat("Using learnable by [{0}]", player.Name);
                 var skillIndex = player.SkillList.SkillCount;
                 player.SkillList.AddLearnedSkill(learnable.Skill);
                 player.PlayerView.AddSkill(learnable.Skill, skillIndex);

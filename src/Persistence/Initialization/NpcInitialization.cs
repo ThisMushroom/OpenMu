@@ -4,6 +4,7 @@
 
 namespace MUnique.OpenMU.Persistence.Initialization
 {
+    using System;
     using System.Linq;
     using MUnique.OpenMU.DataModel.Configuration;
     using MUnique.OpenMU.DataModel.Entities;
@@ -212,6 +213,7 @@ namespace MUnique.OpenMU.Persistence.Initialization
                 def.Number = 251;
                 def.Designation = "Hanzo The Blacksmith";
                 def.NpcWindow = NpcWindow.Merchant;
+                def.MerchantStore = this.CreateMerchantStoreWithDkStarterItems();
                 this.gameConfiguration.Monsters.Add(def);
             }
 
@@ -229,6 +231,7 @@ namespace MUnique.OpenMU.Persistence.Initialization
                 def.Number = 254;
                 def.Designation = "Pasi The Mage";
                 def.NpcWindow = NpcWindow.Merchant;
+                def.MerchantStore = this.CreateMerchantStoreWithDwStarterItems();
                 this.gameConfiguration.Monsters.Add(def);
             }
 
@@ -892,6 +895,71 @@ namespace MUnique.OpenMU.Persistence.Initialization
                 def.Designation = "Wandering Merchant Zyro";
                 this.gameConfiguration.Monsters.Add(def);
             }
+        }
+
+        private ItemStorage CreateMerchantStoreWithDwStarterItems()
+        {
+            var scrolls = this.gameConfiguration.Items.Where(item => item.Group == 15).ToList();
+            var merchantStore = this.context.CreateNew<ItemStorage>();
+
+            var scrollPoison = this.context.CreateNew<Item>();
+            scrollPoison.Definition = scrolls.First(def => def.Number == 0);
+            scrollPoison.ItemSlot = 0;
+            merchantStore.Items.Add(scrollPoison);
+
+            var scrollMeteorite = this.context.CreateNew<Item>();
+            scrollMeteorite.Definition = scrolls.First(def => def.Number == 1);
+            scrollMeteorite.ItemSlot = 1;
+            merchantStore.Items.Add(scrollMeteorite);
+
+            var scrollLighting = this.context.CreateNew<Item>();
+            scrollLighting.Definition = scrolls.First(def => def.Number == 2);
+            scrollLighting.ItemSlot = 2;
+            merchantStore.Items.Add(scrollLighting);
+
+            var scrollFireBall = this.context.CreateNew<Item>();
+            scrollFireBall.Definition = scrolls.First(def => def.Number == 3);
+            scrollFireBall.ItemSlot = 3;
+            merchantStore.Items.Add(scrollFireBall);
+
+            var scrollFlame = this.context.CreateNew<Item>();
+            scrollFlame.Definition = scrolls.First(def => def.Number == 4);
+            scrollFlame.ItemSlot = 4;
+            merchantStore.Items.Add(scrollFlame);
+
+            var scrollTeleport = this.context.CreateNew<Item>();
+            scrollTeleport.Definition = scrolls.First(def => def.Number == 5);
+            scrollTeleport.ItemSlot = 5;
+            merchantStore.Items.Add(scrollTeleport);
+
+            var scrollIce = this.context.CreateNew<Item>();
+            scrollIce.Definition = scrolls.First(def => def.Number == 6);
+            scrollIce.ItemSlot = 6;
+            merchantStore.Items.Add(scrollIce);
+
+            var scrollTwister = this.context.CreateNew<Item>();
+            scrollTwister.Definition = scrolls.First(def => def.Number == 7);
+            scrollTwister.ItemSlot = 7;
+            merchantStore.Items.Add(scrollTwister);
+
+            var scrollEvilSpirit = this.context.CreateNew<Item>();
+            scrollEvilSpirit.Definition = scrolls.First(def => def.Number == 8);
+            scrollEvilSpirit.ItemSlot = 16;
+            merchantStore.Items.Add(scrollEvilSpirit);
+
+            return merchantStore;
+        }
+
+        private ItemStorage CreateMerchantStoreWithDkStarterItems()
+        {
+            var orbs = this.gameConfiguration.Items.Where(item => item.Group == 12).ToList();
+            var merchantStore = this.context.CreateNew<ItemStorage>();
+
+            var orbTwistingSlash = this.context.CreateNew<Item>();
+            orbTwistingSlash.Definition = orbs.First(def => def.Number == 7);
+            merchantStore.Items.Add(orbTwistingSlash);
+
+            return merchantStore;
         }
 
         private ItemStorage CreateMerchantStoreWithPotions()

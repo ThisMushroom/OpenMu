@@ -409,10 +409,13 @@ namespace MUnique.OpenMU.GameLogic
             foreach (var requirement in item.Requirements)
             {
                 // TODO: Added Requirements of additional Levels and Options
-                if (this.Attributes[requirement.Attribute] < requirement.MinimumValue)
+                if (this.Attributes[requirement.Attribute] > requirement.MinimumValue)
                 {
+                    Logger.WarnFormat("Attr [{0}] failed. Required [{1}]. Player has [{2}].", requirement.Attribute, requirement.MinimumValue, this.Attributes[requirement.Attribute]);
                     return false;
                 }
+
+                Logger.WarnFormat("Attr [{0}] is ok. Required [{1}]. Player has [{2}].", requirement.Attribute, requirement.MinimumValue, this.Attributes[requirement.Attribute]);
             }
 
             return item.QualifiedCharacters.Contains(this.SelectedCharacter.CharacterClass);
@@ -674,13 +677,15 @@ namespace MUnique.OpenMU.GameLogic
         /// </returns>
         public bool TryConsumeForSkill(Skill skill)
         {
-            if (skill.Requirements.Any(r => r.MinimumValue > this.Attributes[r.Attribute]))
+            if (skill.Requirements.Any(r => r.MinimumValue < this.Attributes[r.Attribute]))
             {
+                Logger.WarnFormat("TryConsumeForSkill - failed. Some of skill.Requirements do not match.");
                 return false;
             }
 
-            if (skill.ConsumeRequirements.Any(r => r.MinimumValue > this.Attributes[r.Attribute]))
+            if (skill.ConsumeRequirements.Any(r => r.MinimumValue < this.Attributes[r.Attribute]))
             {
+                Logger.WarnFormat("TryConsumeForSkill - failed. Some of skill.ConsumeRequirements are out of bound.");
                 return false;
             }
 

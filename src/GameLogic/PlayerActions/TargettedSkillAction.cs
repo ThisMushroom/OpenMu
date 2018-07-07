@@ -6,16 +6,21 @@ namespace MUnique.OpenMU.GameLogic.PlayerActions
 {
     using System;
     using System.Linq;
+    using log4net;
     using MUnique.OpenMU.AttributeSystem;
     using MUnique.OpenMU.DataModel.Attributes;
     using MUnique.OpenMU.DataModel.Configuration;
     using MUnique.OpenMU.DataModel.Entities;
+
+
 
     /// <summary>
     /// Action to perform a skill which is explicitly aimed to a target.
     /// </summary>
     public class TargettedSkillAction
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(TargettedSkillAction));
+
         /// <summary>
         /// Performs the skill.
         /// </summary>
@@ -28,16 +33,19 @@ namespace MUnique.OpenMU.GameLogic.PlayerActions
             var skill = skillEntry.Skill;
             if (skill.SkillType == SkillType.PassiveBoost)
             {
+                Logger.WarnFormat("Skill is a passive boost");
                 return;
             }
 
             if (target == null)
             {
+                Logger.WarnFormat("Skill has no target");
                 return;
             }
 
             if (!target.Alive)
             {
+                Logger.WarnFormat("Skill target is already dead");
                 return;
             }
 
@@ -47,17 +55,20 @@ namespace MUnique.OpenMU.GameLogic.PlayerActions
             // enough mana, ag etc?
             if (!player.TryConsumeForSkill(skill))
             {
+                Logger.WarnFormat("Skill not enough resources");
                 return;
             }
 
             player.ForEachObservingPlayer(obs => obs.PlayerView.WorldView.ShowSkillAnimation(player, target, skill), true);
             if (!player.IsInRange(target.X, target.Y, skill.Range + 2))
             {
+                Logger.WarnFormat("Skill target is out of range");
                 return;
             }
 
             if (skill.SkillType == SkillType.DirectHit || skill.SkillType == SkillType.CastleSiegeSkill)
             {
+                Logger.WarnFormat("Skill perform direct hit or castle siege skill");
                 target.AttackBy(player, skillEntry);
             }
 
