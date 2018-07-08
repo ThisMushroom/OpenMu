@@ -67,8 +67,26 @@ namespace MUnique.OpenMU.Persistence.Initialization.Maps
             yield return this.CreateMonsterSpawn(context, map, npcDictionary[014], 15, 0, SpawnTrigger.Automatic, 095, 175, 168, 244);
             yield return this.CreateMonsterSpawn(context, map, npcDictionary[001], 45, 0, SpawnTrigger.Automatic, 008, 094, 011, 244);
             yield return this.CreateMonsterSpawn(context, map, npcDictionary[004], 45, 0, SpawnTrigger.Automatic, 008, 094, 011, 244);
-            //yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
-            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 20, 0, SpawnTrigger.Automatic, 026, 060, 026, 060);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+
+            // test:
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
+            yield return this.CreateMonsterSpawn(context, map, npcDictionary[007], 15, 0, SpawnTrigger.Automatic, 008, 060, 011, 080);
         }
 
         /// <inheritdoc />
