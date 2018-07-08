@@ -435,86 +435,57 @@ namespace MUnique.OpenMU.Persistence.Initialization
 
         private void CreateGameMapDefinitions()
         {
-            var maps = new Maps.IMapInitializer[]
-            {
-                new Lorencia(),
-                new Dungeon(),
-                new Devias(),
-                new Noria(),
-                new LostTower(),
-                new Exile(),
-                new Arena(),
-                new Atlans(),
-                new Tarkan(),
-                new DevilSquare1To4(),
-                new Icarus(),
-                new Elvenland(),
-                new Karutan1(),
-                new Karutan2(),
-                new Aida(),
-                new Vulcanus(),
-                new CrywolfFortress(),
-                new LandOfTrials(),
-                new LorenMarket(),
-                new SantaVillage(),
-                new SilentMap(),
-                new ValleyOfLoren(),
-                new BarracksOfBalgass(),
-                new BalgassRefuge(),
-                new Kalima1(),
-                new Kalima2(),
-                new Kalima3(),
-                new Kalima4(),
-                new Kalima5(),
-                new Kalima6(),
-                new Kalima7(),
-                new KanturuRelics(),
-                new KanturuRuins(),
-                new Raklion(),
-                new SwampOfCalmness(),
-                new BloodCastle1(),
-                new BloodCastle2(),
-                new BloodCastle3(),
-                new BloodCastle4(),
-                new BloodCastle5(),
-                new BloodCastle6(),
-                new BloodCastle7(),
-                new BloodCastle8(),
-                new ChaosCastle1(),
-                new ChaosCastle2(),
-                new ChaosCastle3(),
-                new ChaosCastle4(),
-                new ChaosCastle5(),
-                new ChaosCastle6(),
-                new ChaosCastle7(),
-                new IllusionTemple1(),
-                new IllusionTemple2(),
-                new IllusionTemple3(),
-                new IllusionTemple4(),
-                new IllusionTemple5(),
-                new IllusionTemple6(),
-            };
-
-            foreach (var map in maps)
-            {
-                map.Initialize(this.context, this.gameConfiguration);
-            }
+            this.gameConfiguration.Maps.Add(new Lorencia().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Dungeon().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Devias().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Noria().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new LostTower().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Exile().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Arena().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Atlans().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Tarkan().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new DevilSquare1To4().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Icarus().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Elvenland().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Karutan1().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Karutan2().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Aida().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Vulcanus().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new CrywolfFortress().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new LandOfTrials().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new LorenMarket().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new SantaVillage().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new SilentMap().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new ValleyOfLoren().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new BarracksOfBalgass().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new BalgassRefuge().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Kalima1().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Kalima2().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Kalima3().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Kalima4().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Kalima5().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Kalima6().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Kalima7().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new KanturuRelics().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new KanturuRuins().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new Raklion().Initialize(this.context, this.gameConfiguration));
+            this.gameConfiguration.Maps.Add(new SwampOfCalmness().Initialize(this.context, this.gameConfiguration));
 
             var mapNames = new List<string>
             {
                 "Lorencia", "Dungeon", "Devias", "Noria", "Lost Tower", "Exile", "Arena", "Atlans", "Tarkan", "Devil Square (1-4)", "Icarus", // 10
-                "Blood Castle 1", "Blood Castle 2", "Blood Castle 3", "Blood Castle 4", "Blood Castle 5", "Blood Castle 6", "Blood Castle 7", "Chaos Castle 1", "Chaos Castle 2", "Chaos Castle 3", // 20
-                "Chaos Castle 4", "Chaos Castle 5", "Chaos Castle 6", "Kalima 1", "Kalima 2", "Kalima 3", "Kalima 4", "Kalima 5", "Kalima 6", "Valley of Loren", // 30
-                "Land_of_Trials", "Devil Square (5-6)", "Aida", "Crywolf Fortress", "?", "Kalima 7", "Kanturu_I", "Kanturu_III", "Kanturu_Event", "Silent Map?", // 40
-                "Barracks of Balgass", "Balgass Refuge", "?", "?", "Illusion Temple 1", "Illusion Temple 2", "Illusion Temple 3", "Illusion Temple 4", "Illusion Temple 5", "Illusion Temple 6", // 50
+                "Blood_Castle 1", "Blood_Castle 2", "Blood_Castle 3", "Blood_Castle 4", "Blood_Castle 5", "Blood_Castle 6", "Blood_Castle 7", "Chaos_Castle 1", "Chaos_Castle 2", "Chaos_Castle 3", // 20
+                "Chaos_Castle 4", "Chaos_Castle 5", "Chaos_Castle 6", "Kalima 1", "Kalima 2", "Kalima 3", "Kalima 4", "Kalima 5", "Kalima 6", "Valley of Loren", // 30
+                "Land_of_Trials", "Devil_Square (5-6)", "Aida", "Crywolf Fortress", "?", "Kalima 7", "Kanturu_I", "Kanturu_III", "Kanturu_Event", "Silent Map?", // 40
+                "Barracks of Balgass", "Balgass Refuge", "?", "?", "Illusion_Temple 1", "Illusion_Temple 2", "Illusion_Temple 3", "Illusion_Temple 4", "Illusion_Temple 5", "Illusion_Temple 6", // 50
                 "Elvenland", "Blood_Castle 8", "Chaos_Castle 7", "?", "?", "Swamp Of Calmness", "LaCleon", "LaCleonBoss", "?", "?", // 60
                 "?", "Santa Village", "Vulcanus", "Duel Arena", "Double Gear 1", "Double Gear 2", "Double Gear 3", "Double Gear 4", "Empire Fortress 1", // 69
                 "Empire Fortress 2", "Empire Fortress 3", "Empire Fortress 4", "Empire Fortress 5", "?", "?", "?", "?", "?", "LorenMarket", // 79
                 "Karutan1", "Karutan2"
             };
 
-            // Maps which were not initialized before, are getting automatically initialized here, but without NPCs of course.
-            mapNames.Where(name => name != "?" && this.gameConfiguration.Maps.All(m => m.Name != name)).ToList()
+            var skipCount = this.gameConfiguration.Maps.Count;
+            mapNames.Where(name => name != "?" && !this.gameConfiguration.Maps.Any(m => m.Name == name)).ToList()
                 .ForEach((mapName) =>
                 {
                     var map = this.context.CreateNew<GameMapDefinition>();

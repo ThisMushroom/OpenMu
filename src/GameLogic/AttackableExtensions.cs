@@ -75,11 +75,6 @@ namespace MUnique.OpenMU.GameLogic
                 dmg = (int)(dmg * attacker.Attributes[Stats.SkillMultiplier]);
             }
 
-            if (attacker is Player && defender is Player)
-            {
-                dmg += (int)attacker.Attributes[Stats.FinalDamageIncreasePvp];
-            }
-
             bool isDoubleDamage = Rand.NextRandomBool(attacker.Attributes[Stats.DoubleDamageChance]);
             if (isDoubleDamage)
             {
@@ -87,31 +82,24 @@ namespace MUnique.OpenMU.GameLogic
                 attributes |= DamageAttributes.Double;
             }
 
-            return defender.GetHitInfo((uint)dmg, attributes, attacker);
-        }
-
-        /// <summary>
-        /// Gets the hit information, calculates which part of the damage damages the shield and which the health.
-        /// </summary>
-        /// <param name="defender">The defender.</param>
-        /// <param name="damage">The damage.</param>
-        /// <param name="attributes">The attributes.</param>
-        /// <param name="attacker">The attacker.</param>
-        /// <returns>The calculated hit info.</returns>
-        public static HitInfo GetHitInfo(this IAttackable defender, uint damage, DamageAttributes attributes,  IAttackable attacker)
-        {
+            // now we have the final damage calculated. We have to calculate which part of the damage damages the shield and which the health.
+            HitInfo hi;
             var shieldBypass = Rand.NextRandomBool(attacker.Attributes[Stats.ShieldBypassChance]);
             if (shieldBypass || defender.Attributes[Stats.CurrentShield] < 1)
             {
-                return new HitInfo((uint)damage, 0, 0);
+                hi = new HitInfo((uint)dmg, 0, 0);
+            }
+            else
+            {
+                var shieldRatio = 0.90;
+                shieldRatio -= attacker.Attributes[Stats.ShieldDecreaseRateIncrease];
+                shieldRatio += defender.Attributes[Stats.ShieldRateIncrease];
+                shieldRatio = Math.Max(0, shieldRatio);
+                shieldRatio = Math.Min(1, shieldRatio);
+                hi = new HitInfo((uint)(dmg * (1 - shieldRatio)), (uint)(dmg * shieldRatio), attributes);
             }
 
-            var shieldRatio = 0.90;
-            shieldRatio -= attacker.Attributes[Stats.ShieldDecreaseRateIncrease];
-            shieldRatio += defender.Attributes[Stats.ShieldRateIncrease];
-            shieldRatio = Math.Max(0, shieldRatio);
-            shieldRatio = Math.Min(1, shieldRatio);
-            return new HitInfo((uint)(damage * (1 - shieldRatio)), (uint)(damage * shieldRatio), attributes);
+            return hi;
         }
 
         private static bool IsAttackSuccessfulTo(this IAttackable attacker, IAttackable defender)

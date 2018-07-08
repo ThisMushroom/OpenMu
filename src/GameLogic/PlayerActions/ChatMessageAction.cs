@@ -46,6 +46,7 @@ namespace MUnique.OpenMU.GameLogic.PlayerActions
         public void ChatMessage(Player sender, string playerName, string message, bool whisper)
         {
             ChatMessageType messageType = this.GetMessageType(message, whisper);
+
             if (messageType != ChatMessageType.Whisper && playerName != sender.SelectedCharacter.Name)
             {
                 log.WarnFormat("Maybe Hacker, Charname in chat packet != charname\t [{0}] <> [{1}]", sender.SelectedCharacter.Name, playerName);
@@ -115,10 +116,12 @@ namespace MUnique.OpenMU.GameLogic.PlayerActions
                 case "/teleport":
                     if (sa.Length > 2)
                     {
+                        log.WarnFormat("Move command\t [{0}]", sa);
                         player.Move(byte.Parse(sa[1]), byte.Parse(sa[2]), MoveType.Instant);
                     }
 
                     break;
+
             }
         }
 
@@ -134,6 +137,7 @@ namespace MUnique.OpenMU.GameLogic.PlayerActions
             {
                 if (message.StartsWith(keyValuePair.Key))
                 {
+                    log.WarnFormat("Message \t [{0}]", message );
                     return keyValuePair.Value;
                 }
             }

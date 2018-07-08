@@ -4,6 +4,7 @@
 
 namespace MUnique.OpenMU.GameServer.MessageHandler
 {
+    using log4net;
     using MUnique.OpenMU.GameLogic;
     using MUnique.OpenMU.GameLogic.PlayerActions;
     using MUnique.OpenMU.Network;
@@ -13,6 +14,7 @@ namespace MUnique.OpenMU.GameServer.MessageHandler
     /// </summary>
     internal class AreaSkillAttackHandler : BasePacketHandler, IPacketHandler
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(AreaSkillAttackHandler));
         private readonly AreaSkillAttackAction attackAction;
 
         /// <summary>
@@ -28,9 +30,11 @@ namespace MUnique.OpenMU.GameServer.MessageHandler
         /// <inheritdoc/>
         public override void HandlePacket(Player player, byte[] packet)
         {
+            Logger.WarnFormat("AreaSkill packet handle");
             ushort skillId = NumberConversionExtensions.MakeWord(packet[4], packet[3]);
             if (!player.SkillList.ContainsSkill(skillId))
             {
+                Logger.WarnFormat("Player doesnt have this AreaSkill");
                 return;
             }
 

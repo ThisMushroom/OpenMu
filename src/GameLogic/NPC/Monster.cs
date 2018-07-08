@@ -139,21 +139,26 @@ namespace MUnique.OpenMU.GameLogic.NPC
             this.walker.Start();
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Attacks this object by the attacker with the specified skill.
+        /// </summary>
+        /// <param name="attacker">The attacker.</param>
+        /// <param name="skill">The skill.</param>
         public void AttackBy(IAttackable attacker, SkillEntry skill)
         {
             var hitInfo = attacker.CalculateDamage(this, skill);
-            this.Hit(hitInfo, attacker);
-            if (hitInfo.DamageHP > 0)
+            bool killed = this.Hit(hitInfo.DamageHP + hitInfo.DamageSD, attacker);
+            if (attacker is Player player)
             {
-                (attacker as Player)?.AfterHitTarget();
+                player.PlayerView.ShowHit(this, hitInfo);
+                if (killed)
+                {
+                    var party = player.Party;
+                    int exp = party?.DistributeExperienceAfterKill(this) ?? player.AddExpAfterKill(this);
+                    this.DropItem(exp, player);
+                    this.OnDeath(player);
+                }
             }
-        }
-
-        /// <inheritdoc />
-        public void ReflectDamage(IAttackable reflector, uint damage)
-        {
-            this.Hit(new HitInfo(damage, 0, DamageAttributes.Reflected), reflector);
         }
 
         /// <summary>
@@ -253,13 +258,6 @@ namespace MUnique.OpenMU.GameLogic.NPC
             {
                 this.ObserverLock.ExitWriteLock();
             }
-
-            if (attacker is Player player)
-            {
-                int exp = player.Party?.DistributeExperienceAfterKill(this) ?? player.AddExpAfterKill(this);
-                this.DropItem(exp, player);
-                player.AfterKilledMonster();
-            }
         }
 
         /// <summary>
@@ -271,18 +269,7 @@ namespace MUnique.OpenMU.GameLogic.NPC
             this.CurrentMap.Respawn(this);
         }
 
-        private void Hit(HitInfo hitInfo, IAttackable attacker)
-        {
-            var killed = this.TryHit(hitInfo.DamageHP + hitInfo.DamageSD, attacker);
-            (attacker as Player)?.PlayerView.ShowHit(this, hitInfo);
-
-            if (killed)
-            {
-                this.OnDeath(attacker);
-            }
-        }
-
-        private bool TryHit(uint damage, IAttackable attacker)
+        private bool Hit(uint damage, IAttackable attacker)
         {
             if (!this.Alive)
             {

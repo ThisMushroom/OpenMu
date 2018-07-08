@@ -379,21 +379,6 @@ namespace MUnique.OpenMU.GameLogic.Attributes
         public static AttributeDefinition MaximumGuildSize { get; } = new AttributeDefinition(new Guid("898EF69B-3965-4DBF-9783-E9709698236B"), "Maximum Guild Size", string.Empty);
 
         /// <summary>
-        /// Gets the fully recover mana after hit chance definition.
-        /// </summary>
-        public static AttributeDefinition FullyRecoverManaAfterHitChance { get; } = new AttributeDefinition(new Guid("EB06D3A2-DA82-4B81-81B9-A16D39974531"), "Chance to fully recover mana when getting hit", "3rd Wing Option");
-
-        /// <summary>
-        /// Gets the fully recover health after hit chance definition.
-        /// </summary>
-        public static AttributeDefinition FullyRecoverHealthAfterHitChance { get; } = new AttributeDefinition(new Guid("3CA72C07-9C2C-4FC5-8BCB-9BD737F83664"), "Chance to fully recover mana when getting hit", "3rd Wing Option");
-
-        /// <summary>
-        /// Gets the health loss after hit definition.
-        /// </summary>
-        public static AttributeDefinition HealthLossAfterHit { get; } = new AttributeDefinition(new Guid("D84A719B-D18E-433E-BF55-9F08A214AB00"), "Health loss after hitting a target", "Caused by wearing wings");
-
-        /// <summary>
         /// Gets the attributes which are regenerated in an interval.
         /// </summary>
         public static IEnumerable<Regeneration> IntervalRegenerationAttributes
@@ -410,14 +395,14 @@ namespace MUnique.OpenMU.GameLogic.Attributes
         /// <summary>
         /// Gets the attributes which regenerate after a monster has been killed by the player.
         /// </summary>
-        public static IEnumerable<Regeneration> AfterMonsterKillRegenerationAttributes
+        public static IEnumerable<AttributeDefinition> AfterMonsterKillRegenerationAttributes
         {
             get
             {
-                yield return ManaRegenerationAfterMonsterKill;
-                yield return HealthRegenerationAfterMonsterKill;
-                yield return AbilityRegenerationAfterMonsterKill;
-                yield return ShieldRegenerationAfterMonsterKill;
+                yield return ManaAfterMonsterKill;
+                yield return HealthAfterMonsterKill;
+                yield return ShieldAfterMonsterKill;
+                yield return AbilityAfterMonsterKill;
             }
         }
 
@@ -428,14 +413,6 @@ namespace MUnique.OpenMU.GameLogic.Attributes
         private static Regeneration AbilityRegeneration { get; } = new Regeneration(AbilityRecovery, MaximumAbility, CurrentAbility);
 
         private static Regeneration ShieldRegeneration { get; } = new Regeneration(ShieldRecovery, MaximumShield, CurrentShield);
-
-        private static Regeneration ManaRegenerationAfterMonsterKill { get; } = new Regeneration(ManaAfterMonsterKill, MaximumMana, CurrentMana);
-
-        private static Regeneration HealthRegenerationAfterMonsterKill { get; } = new Regeneration(HealthAfterMonsterKill, MaximumHealth, CurrentHealth);
-
-        private static Regeneration AbilityRegenerationAfterMonsterKill { get; } = new Regeneration(AbilityAfterMonsterKill, MaximumAbility, CurrentAbility);
-
-        private static Regeneration ShieldRegenerationAfterMonsterKill { get; } = new Regeneration(ShieldAfterMonsterKill, MaximumShield, CurrentShield);
 
         /// <summary>
         /// A regeneration definition.

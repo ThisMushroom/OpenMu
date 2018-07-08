@@ -38,7 +38,7 @@ namespace MUnique.OpenMU.GameServer.RemoteView
 
         private const byte SkillFlag = 128;
 
-        private const byte Option380Flag = 0x08;
+        private const byte Option380Flag = 128;
 
         private const byte NoSocket = 0xFF;
 
@@ -57,32 +57,21 @@ namespace MUnique.OpenMU.GameServer.RemoteView
         /// <inheritdoc/>
         public void SerializeItem(byte[] array, int startIndex, Item item)
         {
-            array[startIndex] = (byte)item.Definition.Number;
+            array[startIndex] = item.Definition.Number;
+            ////Item Level:
             array[startIndex + 1] = (byte)((item.Level << 3) & 0x78);
-
-            var itemOption = item.ItemOptions.FirstOrDefault(o => o.ItemOption.OptionType == ItemOptionTypes.Option);
-            if (itemOption != null)
-            {
-                // The item option level is splitted into 2 parts. Webzen... :-/
-                array[startIndex + 1] += (byte)(itemOption.Level & 3); // setting the first 2 bits
-                array[startIndex + 3] = (byte)((itemOption.Level & 4) << 4); // The highest bit is placed into the 2nd bit of the exc byte (0x40).
-
-                // Some items (wings) can have different options (3rd wings up to 3!)
-                // Alternate options are set at array[startIndex + 3] |= 0x20 and 0x10
-                if (itemOption.ItemOption.Number != 0)
-                {
-                    array[startIndex + 3] |= (byte)((itemOption.ItemOption.Number & 0b11) << 4);
-                }
-            }
+            ////Item Option:
+            ////It is splitted into 2 parts. Webzen... :-/
+            var itemOptionLevel = item.ItemOptions.FirstOrDefault(o => o.ItemOption.OptionType == ItemOptionTypes.Option)?.Level ?? 0;
+            array[startIndex + 1] += (byte)(itemOptionLevel & 3); // setting the first 2 bits
+            array[startIndex + 3] = (byte)((itemOptionLevel & 4) << 4); // The highest bit is placed into the 2nd bit of the exc byte.
 
             array[startIndex + 2] = item.Durability;
 
             array[startIndex + 3] |= GetExcellentByte(item);
-
-            if ((item.Definition.Number & 0x100) == 0x100)
+            if (item.ItemOptions.Any(o => o.ItemOption.OptionType == ItemOptionTypes.Level380Option))
             {
-                // Support for 512 items per Group
-                array[startIndex + 3] |= 0x80;
+                array[startIndex + 3] |= Option380Flag;
             }
 
             if (item.ItemOptions.Any(o => o.ItemOption.OptionType == ItemOptionTypes.Luck))
@@ -102,11 +91,6 @@ namespace MUnique.OpenMU.GameServer.RemoteView
             }
 
             array[startIndex + 5] = (byte)(item.Definition.Group << 4);
-            if (item.ItemOptions.Any(o => o.ItemOption.OptionType == ItemOptionTypes.Level380Option))
-            {
-                array[startIndex + 5] |= Option380Flag;
-            }
-
             array[startIndex + 6] = GetHarmonyByte(item);
             SetSocketBytes(array, startIndex + 7, item);
         }
@@ -115,7 +99,7 @@ namespace MUnique.OpenMU.GameServer.RemoteView
         {
             for (int i = 0; i < MaximumSockets; i++)
             {
-                array[startIndex + i] = i < item.SocketCount ? EmptySocket : NoSocket;
+                array[startIndex + i] = NoSocket;
             }
 
             var socketOptions = item.ItemOptions.Where(o => o.ItemOption.OptionType == ItemOptionTypes.SocketOption).Select(o => o.ItemOption.Number);
