@@ -51,6 +51,8 @@ namespace MUnique.OpenMU.GameLogic.PlayerActions
                 return;
             }
 
+            Logger.WarnFormat("AreaSkill skill.SkillType is [{0}]", (int)skill.SkillType);
+
             if (skill.SkillType == SkillType.AreaSkillAutomaticHits)
             {
                 Logger.WarnFormat("AreaSkill perform automatic hits");

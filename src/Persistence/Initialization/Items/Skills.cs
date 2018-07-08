@@ -40,7 +40,7 @@ namespace MUnique.OpenMU.Persistence.Initialization.Items
             this.CreateSkill(6, "Teleport", 17, 0, 30, 0, 6, 100, 0, -1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
             this.CreateSkill(7, "Ice", 25, 10, 38, 0, 6, 100, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0);
             this.CreateSkill(8, "Twister", 40, 35, 60, 0, 6, 100, 0, 5, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0);
-            this.CreateSkill(9, "Evil Spirit", 50, 45, 90, 0, 6, 100, 0, -1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0);
+            this.CreateSkill(9, "Evil Spirit", 50, 45, 90, 0, 6, 100, 0, -1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 3);
             this.CreateSkill(10, "Hellfire", 60, 120, 160, 0, 0, 100, 0, 3, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0);
             this.CreateSkill(11, "Power Wave", 9, 14, 5, 0, 6, 100, 0, -1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0);
             this.CreateSkill(12, "Aqua Beam", 74, 80, 140, 0, 6, 110, 0, 6, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0);
@@ -415,7 +415,7 @@ namespace MUnique.OpenMU.Persistence.Initialization.Items
             this.CreateSkill(617, "Increase Triple Damage Chance", 0, 38, 0, 0, 0, 0, 0, -1, -1, 3, 0, 0, 0, 0, 0, 0, 0, 3, 9, 253, 1);
         }
 
-        private void CreateSkill(short skillId, string name, int levelRequirement, int damage, int manaConsumption, int abilityConsumption, short distance, int energyRequirement, int leadershipRequirement, int elementalModifier, int attackType, int useType, int count, int darkWizardClassLevel, int darkKnightClassLevel, int elfClassLevel, int magicGladiatorClassLevel, int darkLordClassLevel, int summonerClassLevel, int ragefighterClassLevel, int rank, int group, int masterp)
+        private void CreateSkill(short skillId, string name, int levelRequirement, int damage, int manaConsumption, int abilityConsumption, short distance, int energyRequirement, int leadershipRequirement, int elementalModifier, int attackType, int useType, int count, int darkWizardClassLevel, int darkKnightClassLevel, int elfClassLevel, int magicGladiatorClassLevel, int darkLordClassLevel, int summonerClassLevel, int ragefighterClassLevel, int rank, int group, int masterp, int skillType = 0)
         {
             var skill = this.Context.CreateNew<Skill>();
             this.GameConfiguration.Skills.Add(skill);
@@ -469,6 +469,7 @@ namespace MUnique.OpenMU.Persistence.Initialization.Items
                 skill.ConsumeRequirements.Add(requirement);
             }
 
+            skill.SkillType = (SkillType)skillType;
             skill.Range = distance;
             skill.DamageType = attackType == 1 ? DamageType.Wizardry : DamageType.Physical;
             var classes = this.GameConfiguration.DetermineCharacterClasses(darkWizardClassLevel, darkKnightClassLevel, elfClassLevel, magicGladiatorClassLevel, darkLordClassLevel, summonerClassLevel, ragefighterClassLevel);
