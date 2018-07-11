@@ -82,8 +82,20 @@ namespace MUnique.OpenMU.GameLogic
                 attributes |= DamageAttributes.Double;
             }
 
-            // now we have the final damage calculated. We have to calculate which part of the damage damages the shield and which the health.
-            HitInfo hi;
+            var minimumDamage = attacker.Attributes[Stats.Level] / 10;
+            return defender.GetHitInfo(Math.Max((uint)dmg, (uint)minimumDamage), attributes, attacker);
+        }
+
+        /// <summary>
+        /// Gets the hit information, calculates which part of the damage damages the shield and which the health.
+        /// </summary>
+        /// <param name="defender">The defender.</param>
+        /// <param name="damage">The damage.</param>
+        /// <param name="attributes">The attributes.</param>
+        /// <param name="attacker">The attacker.</param>
+        /// <returns>The calculated hit info.</returns>
+        public static HitInfo GetHitInfo(this IAttackable defender, uint damage, DamageAttributes attributes,  IAttackable attacker)
+        {
             var shieldBypass = Rand.NextRandomBool(attacker.Attributes[Stats.ShieldBypassChance]);
             if (shieldBypass || defender.Attributes[Stats.CurrentShield] < 1)
             {

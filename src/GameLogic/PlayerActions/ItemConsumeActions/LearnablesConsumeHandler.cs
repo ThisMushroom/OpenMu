@@ -12,15 +12,6 @@ namespace MUnique.OpenMU.GameLogic.PlayerActions.ItemConsumeActions
     /// </summary>
     public class LearnablesConsumeHandler : IItemConsumeHandler
     {
-        private static ILog log = LogManager.GetLogger(typeof(LearnablesConsumeHandler));
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LearnablesConsumeHandler"/> class.
-        /// </summary>
-        public LearnablesConsumeHandler()
-        {
-        }
-
         /// <inheritdoc/>
         public bool ConsumeItem(Player player, byte itemSlot, byte targetSlot)
         {
@@ -30,7 +21,7 @@ namespace MUnique.OpenMU.GameLogic.PlayerActions.ItemConsumeActions
             }
 
             Item item = player.Inventory.GetItem(itemSlot);
-            if (item == null)
+            if (item == null || item.Durability == 0)
             {
                 return false;
             }
@@ -40,29 +31,20 @@ namespace MUnique.OpenMU.GameLogic.PlayerActions.ItemConsumeActions
             // Check Requirements
             if (!player.CompliesRequirements(learnable))
             {
-                log.WarnFormat("Failed to use learnable by [{0}] because !CompliesRequirements", player.Name);
-
-                // TODO:Send unsuccessful packet
                 return false;
             }
 
-            if (player.SkillList.ContainsSkill(learnable.Skill.SkillID.ToUnsigned()))
+            if (learnable.Skill == null || player.SkillList.ContainsSkill(learnable.Skill.SkillID.ToUnsigned()))
             {
                 log.WarnFormat("Failed to use learnable by [{0}] because already has this skill", player.Name);
                 return false;
             }
 
-            if (learnable != null && learnable.Skill != null)
-            {
-                log.WarnFormat("Using learnable by [{0}]", player.Name);
-                var skillIndex = player.SkillList.SkillCount;
-                player.SkillList.AddLearnedSkill(learnable.Skill);
-                player.PlayerView.AddSkill(learnable.Skill, skillIndex);
-                player.Inventory.RemoveItem(item);
-                return true;
-            }
-
-            return false;
+            player.SkillList.AddLearnedSkill(learnable.Skill);
+            item.Durability--;
+            player.Inventory.RemoveItem(item);
+            player.PersistenceContext.Delete(item);
+            return true;
         }
     }
 }

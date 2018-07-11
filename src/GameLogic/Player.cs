@@ -762,6 +762,42 @@ namespace MUnique.OpenMU.GameLogic
             return spawnTargetMap.ExitGates.Where(g => g.IsSpawnGate).SelectRandom();
         }
 
+        private void Hit(HitInfo hitInfo, IAttackable attacker)
+        {
+            int oversd = (int)(this.Attributes[Stats.CurrentShield] - hitInfo.DamageSD);
+            if (oversd < 0)
+            {
+                this.Attributes[Stats.CurrentShield] = 0;
+                hitInfo.DamageHP += (uint)(oversd * (-1));
+            }
+            else
+            {
+                this.Attributes[Stats.CurrentShield] = oversd;
+            }
+
+            this.Attributes[Stats.CurrentHealth] -= hitInfo.DamageHP;
+            this.PlayerView.ShowHit(this, hitInfo);
+            (attacker as Player)?.PlayerView.ShowHit(this, hitInfo);
+
+            if (this.Attributes[Stats.CurrentHealth] < 1)
+            {
+                this.OnDeath(attacker);
+            }
+
+            var reflectPercentage = this.Attributes[Stats.DamageReflection];
+            if (reflectPercentage > 0)
+            {
+                var reflectedDamage = (hitInfo.DamageHP + hitInfo.DamageSD) * reflectPercentage;
+                Task.Delay(500).ContinueWith(task =>
+                {
+                    if (attacker.Alive)
+                    {
+                        attacker.ReflectDamage(this, (uint)reflectedDamage);
+                    }
+                });
+            }
+        }
+
         private void OnDeath(IAttackable killer)
         {
             if (!this.PlayerState.TryAdvanceTo(GameLogic.PlayerState.Dead))
